@@ -35,7 +35,7 @@ var SupershopApp = (function() {
 		var _game = new MemoryGame('memoryGame', Config.memoryGame);
 
 		this.startGame = function() {
-			_game.startGame(arguments[0]);
+			_game.startGame();
 		};
 
 		var _sendMessage = function(action, data, callback) {

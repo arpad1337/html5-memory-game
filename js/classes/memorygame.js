@@ -79,6 +79,7 @@ var MemoryGame = (function() {
 			Interface.ensureImplements(_items[0], ItemInterface);
 			for (var i = 0; i < options.tiles.items.length << 1; i++) {
 				_order.push(_items[i].getID());
+				_container.children[i].className = 'item-holder';
 				_container.children[i].children[0].appendChild(_items[i].toString());
 				if(!_container.children[i].addEventListener) {
 					_container.children[i].attachEvent('onclick', _onItemClick);
@@ -193,9 +194,7 @@ var MemoryGame = (function() {
 		};
 
 		// public
-		this.startGame = function(b) {
-			if(b === undefined) throw new Error('MemoryGame: Start button is undefined.');
-			b.setAttribute('disabled', 'disabled');
+		this.startGame = function() {
 			_items.shuffle();
 			_drawScene();
 			console.log(_startTimer());

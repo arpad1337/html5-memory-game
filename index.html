@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
         <style>
+            /* Be careful! */
             #memoryGame {
                  -webkit-perspective: 600;-webkit-perspective-origin: 50% 50%;
                 -moz-perspective: 600;-moz-perspective-origin: 50% 50%;
@@ -86,7 +87,9 @@
 
         <!-- Add your site or application content here -->
 
-        <button onclick="App.startGame(this)">Start</button>
+        <p>Content comes here. IE8 ready without jQuery.</p>
+
+        <button onclick="App.startGame()">Start</button>
         <span id="tick"></span>
         <div id="memoryGame"></div>
 

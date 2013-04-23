@@ -21,7 +21,13 @@ try
 			if(!isset($_POST['detail'])) throw new AppException("Detail is missing.", 4);
 			//error_log(print_r($_REQUEST,true));
 
-			/* TODO: Validation */
+			/* TODO: Validation 
+				We have: 
+					- interactions width coordinates and ID, 
+					- container size and offsets,
+					- timestamps and
+					- a generated order. 
+			*/
 
 			die(json_encode($_REQUEST));
 			break;
