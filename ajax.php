@@ -18,7 +18,11 @@ try
 			# code...
 			break;
 		case 'sendAnswer':
-			error_log(print_r($_REQUEST,true));
+			if(!isset($_POST['detail'])) throw new AppException("Detail is missing.", 4);
+			//error_log(print_r($_REQUEST,true));
+
+			/* TODO: Validation */
+
 			die(json_encode($_REQUEST));
 			break;
 		default:

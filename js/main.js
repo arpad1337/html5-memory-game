@@ -2,7 +2,7 @@ var Config = {
 	memoryGame: {
 		tiles: {
 			items: [
-				"tiles/logo_tiles0000"/*,
+				"tiles/logo_tiles0000",
 				"tiles/logo_tiles0001",
 				"tiles/logo_tiles0002",
 				"tiles/logo_tiles0003",
@@ -13,7 +13,7 @@ var Config = {
 				"tiles/logo_tiles0008",
 				"tiles/logo_tiles0009",
 				"tiles/logo_tiles0010",
-				"tiles/logo_tiles0011"*/
+				"tiles/logo_tiles0011"
 			],
 			type: 'png'
 		},
