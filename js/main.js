@@ -2,23 +2,24 @@ var Config = {
 	memoryGame: {
 		tiles: {
 			items: [
-				"tiles/logo_tiles0000",
-				"tiles/logo_tiles0001",
-				"tiles/logo_tiles0002",
-				"tiles/logo_tiles0003",
-				"tiles/logo_tiles0004",
-				"tiles/logo_tiles0005",
-				"tiles/logo_tiles0006",
-				"tiles/logo_tiles0007",
-				"tiles/logo_tiles0008",
-				"tiles/logo_tiles0009",
-				"tiles/logo_tiles0010",
-				"tiles/logo_tiles0011"
+				"tiles/logo_tiles0000"//,
+				// "tiles/logo_tiles0001",
+				// "tiles/logo_tiles0002",
+				// "tiles/logo_tiles0003",
+				// "tiles/logo_tiles0004",
+				// "tiles/logo_tiles0005",
+				// "tiles/logo_tiles0006",
+				// "tiles/logo_tiles0007",
+				// "tiles/logo_tiles0008",
+				// "tiles/logo_tiles0009",
+				// "tiles/logo_tiles0010",
+				// "tiles/logo_tiles0011"
 			],
 			type: 'png'
 		},
 		itemWidth: 120,
-		itemHeight: 120
+		itemHeight: 120,
+		ticker: 'tick'
 	},
 	baseUri: "ajax.php"
 };
@@ -40,7 +41,7 @@ var SupershopApp = (function() {
 
 		var _sendMessage = function(action, data, callback) {
 			var asyncRequest = (function() {
-				function handleReadyState(o, callback) {
+				var handleReadyState = function(o, callback) {
 					var poll = window.setInterval(
 
 					function() {
@@ -52,7 +53,8 @@ var SupershopApp = (function() {
 						}
 					},
 					50);
-				}
+				};
+
 				var serialize = function(obj, prefix) {
 					var str = [];
 					for (var p in obj) {

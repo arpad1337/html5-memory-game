@@ -8,12 +8,11 @@ var MemoryGame = (function() {
 
 	// private static
 	var _created = false;
-	var _foundedPairs = 0,
-		_clicks = 0,
-		_container, _d, _di, _b, _p, _lastElement = [],
-		_matches = 0,
-		_userInteractions = [],
+	var _clicks, _matches,
+		_container, _d, _di, _b, _p, _lastElement,
+		_userInteractions,
 		_width, _height;
+		_ticker = null;
 	return function(container, options) {
 
 		// constructor
@@ -24,6 +23,8 @@ var MemoryGame = (function() {
 
 		if (options.tiles.items === undefined || options.tiles.items.length === 0) throw new Error('MemoryGame: tiles are not defined or has zero length.');
 		if (document.getElementById(container) === undefined) throw new Error('MemoryGame: conatiner [memoryGame] not found.');
+
+		if(options.ticker) _ticker = document.getElementById(options.ticker);
 
 		_width = options.itemWidth || 120;
 		_height = options.itemHeight || 120;
@@ -63,15 +64,18 @@ var MemoryGame = (function() {
 		// private
 		var _startTimer = function() {
 			_start = new Date();
-			_counter = setInterval(function() {
-				document.getElementById('tick').innerHTML = Number((new Date() - _start) / 1000).toFixed(2) + " ms";
-			}, 10);
+			if(_ticker) {
+				if(_counter) clearInterval(_counter);
+				_counter = setInterval(function() {
+					_ticker.innerHTML = Number((new Date() - _start) / 1000).toFixed(2) + " ms";
+				}, 10);
+			}
 			return "Timer started";
 		};
 
 		var _stopTimer = function() {
 			_miliseconds = new Date() - _start;
-			clearInterval(_counter);
+			if(_ticker) clearInterval(_counter); _counter = null;
 			return "Timer stoped: " + _miliseconds;
 		};
 
@@ -82,9 +86,11 @@ var MemoryGame = (function() {
 				_container.children[i].className = 'item-holder';
 				_container.children[i].children[0].appendChild(_items[i].toString());
 				if(!_container.children[i].addEventListener) {
+					_container.children[i].detachEvent('onclick',_onItemClick);
 					_container.children[i].attachEvent('onclick', _onItemClick);
 				}
 				else {
+					_container.children[i].removeEventListener('click', _onItemClick);
 					_container.children[i].addEventListener('click', _onItemClick);
 				}
 			}
@@ -175,6 +181,7 @@ var MemoryGame = (function() {
 					} else {
 						gameOver = document.createEventObject();
 						gameOver.detail = detail;
+						gameOver.customEvent = true;
 						_container.fireEvent('onpropertychange',gameOver);
 					}
 				}
@@ -195,6 +202,10 @@ var MemoryGame = (function() {
 
 		// public
 		this.startGame = function() {
+			_lastElement = [];
+			_userInteractions = [];
+			_matches = 0;
+			_clicks = 0;
 			_items.shuffle();
 			_drawScene();
 			console.log(_startTimer());
@@ -203,7 +214,12 @@ var MemoryGame = (function() {
 		this.onGameOver = function(callback)
 		{
 			if(!_container.addEventListener) {
-				_container.attachEvent('onpropertychange', callback);
+				_container.attachEvent('onpropertychange', function(){
+					if(arguments[0].customEvent)
+					{
+						callback.call(this,arguments[0]);
+					}
+				});
 			} else {
 				_container.addEventListener('gameOver', callback);
 			}
